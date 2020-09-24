@@ -47,14 +47,15 @@ var SetLib = /** @class */ (function () {
             var _this = this;
             return __generator(this, function (_a) {
                 return [2 /*return*/, new Promise(function (resolve, reject) {
-                        var _a;
                         if (!key) {
                             reject("Key is empty!");
                         }
                         if (!value) {
                             reject("Value is empty!");
                         }
-                        fs_1.writeFile(_this.path.replace("../../", ""), JSON.stringify((_a = {}, _a[key] = value, _a), null, 2), function (error) {
+                        var beforeData = require(_this.path);
+                        beforeData[key] = value;
+                        fs_1.writeFile(_this.path, JSON.stringify(beforeData, null, 2), function (error) {
                             if (error) {
                                 reject(error.message);
                             }

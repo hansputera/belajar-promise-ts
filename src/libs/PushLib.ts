@@ -11,9 +11,12 @@ export default class PushLib {
         return new Promise((resolve, reject) => {
             const file = require(this.path!);
             if (!file[key]) {
-                writeFile(this.path!.replace("../../", ""),
+                const beforeDat = require(this.path!);
+                beforeDat[key] = Array(arraydata);
+
+                writeFile(this.path!,
                 JSON.stringify(
-                    {[key]: Array(arraydata) }
+                    beforeDat
                 , null,2),
                 (error) => {
                     if (error) {
@@ -22,9 +25,12 @@ export default class PushLib {
                     resolve("Just create array data!");
                     const isThe = require(this.path!)[key];
                     if (!isThe && typeof arraydata === "number") {
-                        writeFile(this.path!.replace("../../", ""),
+                        const beforeDat2 = require(this.path!);
+                        beforeDat2[key] = [arraydata];
+
+                        writeFile(this.path!,
                         JSON.stringify(
-                            { [key]: [arraydata] }, null, 2),
+                            beforeDat2, null, 2),
                         (error) => {
                             if (error) {
                                 reject(error.message);
@@ -34,7 +40,7 @@ export default class PushLib {
                     } 
                 });
             } else {
-                const fileData = require(this.path!)[key];
+                const fileData = require("../../" + this.path!)[key];
                 
                 if (!Array.isArray(fileData)) 
                 {
@@ -42,9 +48,10 @@ export default class PushLib {
                 }
                 
                 fileData.push(arraydata);
-
+                const afterDat = require("../../" + this.path!);
+                afterDat[key] = fileData;
                 writeFile(this.path!.replace("../../", ""),
-                JSON.stringify({ [key]:  fileData }, null,2),
+                JSON.stringify(afterDat, null,2),
                 (error) => {
                     if (error) {
                         reject(error.message);

@@ -16,8 +16,11 @@ class SetLib {
                 reject("Value is empty!");
             }
 
-            writeFile(this.path!.replace("../../", ""), 
-            JSON.stringify({ [key]: value }, null,2),
+            const beforeData = require(this.path!);
+            beforeData[key] = value;
+
+            writeFile(this.path!, 
+            JSON.stringify(beforeData, null,2),
             (error) => {
                 if (error) {
                     reject(error.message);

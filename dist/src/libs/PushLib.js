@@ -46,18 +46,20 @@ var PushLib = /** @class */ (function () {
             var _this = this;
             return __generator(this, function (_a) {
                 return [2 /*return*/, new Promise(function (resolve, reject) {
-                        var _a, _b;
                         var file = require(_this.path);
                         if (!file[key]) {
-                            fs_1.writeFile(_this.path.replace("../../", ""), JSON.stringify((_a = {}, _a[key] = Array(arraydata), _a), null, 2), function (error) {
-                                var _a;
+                            var beforeDat = require(_this.path);
+                            beforeDat[key] = Array(arraydata);
+                            fs_1.writeFile(_this.path, JSON.stringify(beforeDat, null, 2), function (error) {
                                 if (error) {
                                     reject(error.message);
                                 }
                                 resolve("Just create array data!");
                                 var isThe = require(_this.path)[key];
                                 if (!isThe && typeof arraydata === "number") {
-                                    fs_1.writeFile(_this.path.replace("../../", ""), JSON.stringify((_a = {}, _a[key] = [arraydata], _a), null, 2), function (error) {
+                                    var beforeDat2 = require(_this.path);
+                                    beforeDat2[key] = [arraydata];
+                                    fs_1.writeFile(_this.path, JSON.stringify(beforeDat2, null, 2), function (error) {
                                         if (error) {
                                             reject(error.message);
                                         }
@@ -67,12 +69,14 @@ var PushLib = /** @class */ (function () {
                             });
                         }
                         else {
-                            var fileData = require(_this.path)[key];
+                            var fileData = require("../../" + _this.path)[key];
                             if (!Array.isArray(fileData)) {
                                 reject("Invalid type.");
                             }
                             fileData.push(arraydata);
-                            fs_1.writeFile(_this.path.replace("../../", ""), JSON.stringify((_b = {}, _b[key] = fileData, _b), null, 2), function (error) {
+                            var afterDat = require("../../" + _this.path);
+                            afterDat[key] = fileData;
+                            fs_1.writeFile(_this.path.replace("../../", ""), JSON.stringify(afterDat, null, 2), function (error) {
                                 if (error) {
                                     reject(error.message);
                                 }
